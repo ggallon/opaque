@@ -1,3 +1,5 @@
+#![allow(non_snake_case)]
+
 use argon2::Argon2;
 use opaque_ke::ciphersuite::CipherSuite;
 use opaque_ke::errors::ProtocolError;
