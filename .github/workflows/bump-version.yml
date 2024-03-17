@@ -14,7 +14,7 @@ jobs:
         run: cargo install wasm-bindgen-cli
       - name: install wasm-unknown-unknown target
         run: rustup target add wasm32-unknown-unknown
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
         with:
           version: 8
       - name: install dependencies
