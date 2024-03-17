@@ -57,10 +57,10 @@ Is managed via Changesets and the Github CI. This means every change should also
 npx changeset
 ```
 
-You can bump a version running the `version` action here: https://github.com/serenity-kit/opaque/actions/workflows/release.yml
+You can bump a version running the `version` action here: https://github.com/proactice/opaque-wasm/actions/workflows/release.yml
 
 ## Publish
 
 Is managed via the Github CI
 
-You can publish running the `publish` action here: https://github.com/serenity-kit/opaque/actions/workflows/release.yml
+You can publish running the `publish` action here: https://github.com/proactice/opaque-wasm/actions/workflows/release.yml

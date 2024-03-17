@@ -8,7 +8,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@serenity-kit/opaque": "workspace:*",
     "@types/node": "20.11.7",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
@@ -18,9 +17,10 @@
     "eslint-config-next": "14.1.0",
     "next": "14.1.0",
     "postcss": "8.4.33",
+    "@proactice/opaque-wasm": "workspace:*",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "redis": "^4.6.12",
+    "redis": "^4.6.13",
     "tailwindcss": "3.4.1",
     "typescript": "5.3.3",
     "zod": "^3.22.4"

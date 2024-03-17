@@ -1,4 +1,4 @@
-import * as opaque from "@serenity-kit/opaque";
+import * as opaque from "@proactice/opaque-wasm";
 
 export default function runFullFlowDemo() {
   const serverSetup = opaque.server.createSetup();

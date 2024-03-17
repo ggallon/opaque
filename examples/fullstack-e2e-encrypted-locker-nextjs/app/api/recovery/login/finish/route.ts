@@ -1,6 +1,6 @@
 import { checkRateLimit } from "@/app/api/rateLimiter";
 import { LoginFinishParams } from "@/app/api/schema";
-import * as opaque from "@serenity-kit/opaque";
+import * as opaque from "@proactice/opaque-wasm";
 import { NextRequest, NextResponse } from "next/server";
 import database from "../../../db";
 

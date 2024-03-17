@@ -1,6 +1,6 @@
 "use client";
 
-import * as opaque from "@serenity-kit/opaque";
+import * as opaque from "@proactice/opaque-wasm";
 import { useState } from "react";
 
 async function request(method: string, path: string, body: any = undefined) {

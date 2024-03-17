@@ -12,11 +12,10 @@ const ristrettoPackageJson = JSON.parse(
 
 const packageJson = function (name) {
   return new sh.ShellString(`{
-  "name": "@serenity-kit/${name}",
+  "name": "@proactice/${name}",
   "description": "Secure password based client-server authentication without the server ever obtaining knowledge of the password. Implementation of the OPAQUE protocol.",
   "collaborators": [
-    "Stefan Oestreicher <oestef@gmail.com>",
-    "Nik Graf <nik@nikgraf.com>"
+    "Gwenaël Gallon <gwenael@proactice.co>"
   ],
   "version": "${ristrettoPackageJson.version}",
   "license": "MIT",
@@ -30,7 +29,7 @@ const packageJson = function (name) {
   "main": "cjs/index.js",
   "browser": "esm/index.js",
   "bin": "./bin/index.js",
-  "repository": "github:serenity-kit/opaque",
+  "repository": "github:proactice/opaque-wasm",
   "publishConfig": {
     "provenance": true
   }
@@ -128,9 +127,9 @@ function main() {
   rollup("p521");
 
   // write package json
-  packageJson("opaque").to("build/ristretto/package.json");
-  packageJson("opaque-p256").to("build/p256/package.json");
-  packageJson("opaque-p521").to("build/p521/package.json");
+  packageJson("opaque-wasm").to("build/ristretto/package.json");
+  packageJson("opaque-wasm-p256").to("build/p256/package.json");
+  packageJson("opaque-wasme-p521").to("build/p521/package.json");
 
   // create bin folder
   sh.mkdir("build/ristretto/bin", "build/p256/bin", "build/p521/bin");

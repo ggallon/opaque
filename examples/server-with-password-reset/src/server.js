@@ -1,4 +1,4 @@
-import * as opaque from "@serenity-kit/opaque";
+import * as opaque from "@proactice/opaque-wasm";
 import cookieParser from "cookie-parser";
 import { randomInt } from "crypto";
 import * as dotenv from "dotenv";

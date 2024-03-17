@@ -1,7 +1,7 @@
 import { checkRateLimit } from "@/app/api/rateLimiter";
 import { RecoveryRegisterStart } from "@/app/api/schema";
 import withUserSession from "@/app/api/withUserSession";
-import * as opaque from "@serenity-kit/opaque";
+import * as opaque from "@proactice/opaque-wasm";
 import { NextRequest, NextResponse } from "next/server";
 import database from "../../../db";
 import { SERVER_SETUP } from "../../../env";

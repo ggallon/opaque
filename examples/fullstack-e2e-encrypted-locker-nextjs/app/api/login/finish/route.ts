@@ -1,4 +1,4 @@
-import * as opaque from "@serenity-kit/opaque";
+import * as opaque from "@proactice/opaque-wasm";
 import { randomInt } from "crypto";
 import { cookies } from "next/dist/client/components/headers";
 import { NextRequest, NextResponse } from "next/server";

@@ -2,7 +2,7 @@
 
 Secure password based client-server authentication without the server ever obtaining knowledge of the password.
 
-A JavaScript implementation of the [OPAQUE protocol](https://datatracker.ietf.org/doc/draft-irtf-cfrg-opaque/) based on [opaque-ke](https://github.com/facebook/opaque-ke).
+A JavaScript implementation of the [OPAQUE protocol](https://cfrg.github.io/draft-irtf-cfrg-opaque/draft-irtf-cfrg-opaque.html) based on [opaque-ke](https://github.com/facebook/opaque-ke).
 
 ## Benefits
 
@@ -13,18 +13,18 @@ A JavaScript implementation of the [OPAQUE protocol](https://datatracker.ietf.or
 
 ## Documentation
 
-In depth documentation can be found at [https://opaque-auth.com/](https://opaque-auth.com/).
+In depth documentation can be found at [https://proactice.co/opaque](https://proactice.co/opaque).
 
 ## Install
 
 ```sh
-npm install @serenity-kit/opaque
+npm install @proactice/opaque-wasm
 ```
 
 ## Usage
 
 ```ts
-import * as opaque from "@serenity-kit/opaque";
+import * as opaque from "@proactice/opaque-wasm";
 ```
 
 ### Server Setup
@@ -34,7 +34,7 @@ The server setup is a one-time operation. It is used to generate the server's lo
 Recommended:
 
 ```bash
-npx @serenity-kit/opaque@latest create-server-setup
+npx @proactice/opaque-wasm@latest create-server-setup
 ```
 
 The result is a 171 long string. Only store it in a secure location and make sure you have it available in your application e.g. via an environment variable.
@@ -270,7 +270,7 @@ It's recommended to verify the server static public key in the application layer
 The `serverStaticPublicKey` can be extracted using the following CLI command:
 
 ```sh
-npx @serenity-kit/opaque@latest get-server-public-key "<server setup string>"
+npx @proactice/opaque-wasm@latest get-server-public-key "<server setup string>"
 ```
 
 Alternatively the functionality is exposed via
@@ -379,7 +379,7 @@ const { finishLoginRequest, sessionKey } = loginResult;
 
 The default implementation uses [ristretto255](https://ristretto.group/) for the OPRF and the group mode.
 
-If you would like to use the [P-256](https://docs.rs/p256/latest/p256/) curve instead, you can use the [@serenity-kit/opaque-p256](https://www.npmjs.com/package/@serenity-kit/opaque) package. The API is identical.
+If you would like to use the [P-256](https://docs.rs/p256/latest/p256/) curve instead, you can use the [@proactice/opaque-wasm-p256](https://www.npmjs.com/package/@proactice/opaque-wasm) package. The API is identical.
 
 ### ReactNative
 

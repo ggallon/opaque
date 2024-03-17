@@ -1,4 +1,4 @@
-import * as opaque from "@serenity-kit/opaque";
+import * as opaque from "@proactice/opaque-wasm";
 import { createRecoveryLockbox } from "./locker/client/createRecoveryLockbox";
 
 export async function request(
