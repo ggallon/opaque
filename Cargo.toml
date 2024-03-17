@@ -11,8 +11,10 @@ default = []
 p256 = ["dep:p256"]
 
 [dependencies]
-opaque-ke = { version = "3.0.0-pre.4", features = ["argon2"] }
 wasm-bindgen = { version = "0.2.92", features = ["serde-serialize"] }
+opaque-ke = { version = "3.0.0-pre.5", features = [
+    "argon2",
+], path = "./tools/opaque-ke" }
 rand = { version = "0.8.5" }
 getrandom = { version = "0.2.12", features = ["js", "wasm-bindgen"] }
 argon2 = "0.5"

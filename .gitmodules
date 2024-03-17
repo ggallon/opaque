@@ -1,0 +1,3 @@
+[submodule "tools/opaque-ke"]
+	path = tools/opaque-ke
+	url = https://github.com/facebook/opaque-ke.git
