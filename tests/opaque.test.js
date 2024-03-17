@@ -1,8 +1,13 @@
 import * as opaqueP256 from "../build/p256";
+import * as opaqueP521 from "../build/p521";
 import * as opaqueRistretto from "../build/ristretto";
 
 const opaque =
-  process.env.OPAQUE_BUILD === "p256" ? opaqueP256 : opaqueRistretto;
+  process.env.OPAQUE_BUILD === "p256"
+    ? opaqueP256
+    : process.env.OPAQUE_BUILD === "p521"
+      ? opaqueP521
+      : opaqueRistretto;
 
 /**
  * @typedef {{client?:string;server?:string}} Identifiers

@@ -9,6 +9,7 @@ crate-type = ["cdylib", "rlib"]
 [features]
 default = []
 p256 = ["dep:p256"]
+p521 = ["dep:p521"]
 
 [dependencies]
 wasm-bindgen = { version = "0.2.92", features = ["serde-serialize"] }
@@ -19,8 +20,12 @@ rand = { version = "0.8.5" }
 getrandom = { version = "0.2.12", features = ["js", "wasm-bindgen"] }
 argon2 = "0.5"
 p256 = { version = "0.13", default-features = false, features = [
-  "hash2curve",
-  "voprf",
+    "hash2curve",
+    "voprf",
+], optional = true }
+p521 = { version = "0.13", default-features = false, features = [
+    "hash2curve",
+    "voprf",
 ], optional = true }
 base64 = "0.21.7"
 serde = { version = "1.0.197", features = ["derive"] }
