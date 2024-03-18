@@ -1,32 +1,88 @@
 name: Lint and format
 
-on: [push]
+on:
+  push:
+    branches: [canary]
+  pull_request:
+
+env:
+  RUST_BACKTRACE: 0
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   prettier:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
         with:
           version: 8
-      - name: Install dependencies
-        run: pnpm install
+          run_install: false
+
+      - id: get-store-path
+        run: echo STORE_PATH=$(pnpm store path) >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        timeout-minutes: 5
+        id: cache-pnpm-store
+        with:
+          path: ${{ steps.get-store-path.outputs.STORE_PATH }}
+          key: pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-
+            pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - run: pnpm install
+
       - name: prettier-check
-        run: npx prettier --check .
+        run: pnpm prettier --check .
+
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - run: rustc --version
+
+      - name: Install Rust
+        uses: ./.github/actions/setup-rust
+        with:
+          toolchain: stable
+          targets: wasm32-unknown-unknown
+
+      - run: rustc --version
+
       - name: install wasm-bindgen-cli
-        run: cargo install wasm-bindgen-cli
-      - name: install wasm-unknown-unknown target
-        run: rustup target add wasm32-unknown-unknown
-      - uses: pnpm/action-setup@v2
+        run: cargo install -f wasm-bindgen-cli
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
         with:
           version: 8
-      - name: Install dependencies
-        run: pnpm install
+          run_install: false
+
+      - id: get-store-path
+        run: echo STORE_PATH=$(pnpm store path) >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        timeout-minutes: 5
+        id: cache-pnpm-store
+        with:
+          path: ${{ steps.get-store-path.outputs.STORE_PATH }}
+          key: pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-
+            pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+
       - name: Build opaque
         run: pnpm build
       - name: Run typechecks

@@ -7,24 +7,44 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: install wasm-bindgen-cli
         run: cargo install wasm-bindgen-cli
       - name: install wasm-unknown-unknown target
         run: rustup target add wasm32-unknown-unknown
-      - uses: pnpm/action-setup@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
         with:
           version: 8
-      - name: install dependencies
-        run: pnpm install
+          run_install: false
+
+      - id: get-store-path
+        run: echo STORE_PATH=$(pnpm store path) >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        timeout-minutes: 5
+        id: cache-pnpm-store
+        with:
+          path: ${{ steps.get-store-path.outputs.STORE_PATH }}
+          key: pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-
+            pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+
       - name: Build opaque
         run: pnpm build
+
       - name: install Playwright browsers
-        run: npx playwright install --with-deps
+        run: pnpm playwright install --with-deps
 
       - name: run client-simple-webpack tests
         working-directory: examples/client-simple-webpack
-        run: npx playwright test
+        run: pnpm playwright test
+
       - uses: actions/upload-artifact@v3
         if: always()
         with:
@@ -34,7 +54,8 @@ jobs:
 
       - name: run client-with-password-reset tests
         working-directory: examples/client-with-password-reset
-        run: npx playwright test
+        run: pnpm playwright test
+
       - uses: actions/upload-artifact@v3
         if: always()
         with:
