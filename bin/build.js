@@ -4,6 +4,8 @@ const path = require("path");
 // throw if a command fails
 sh.config.fatal = true;
 
+const algo = ["ristretto", "p256", "p521"];
+
 const ristrettoPackageJson = JSON.parse(
   sh
     .cat(path.join(__dirname, "..", "build", "ristretto", "package.json"))
@@ -69,22 +71,18 @@ opaque.ready.then(() => {
 `);
 
 function build_wbg() {
-  sh.exec("cargo build --target=wasm32-unknown-unknown --release");
-  sh.exec(
-    "wasm-bindgen --out-dir=build/wbg_ristretto --target=web --omit-default-module-path target/wasm32-unknown-unknown/release/opaque.wasm",
-  );
-  sh.exec(
-    "cargo build --target=wasm32-unknown-unknown --release --features p256",
-  );
-  sh.exec(
-    "wasm-bindgen --out-dir=build/wbg_p256 --target=web --omit-default-module-path target/wasm32-unknown-unknown/release/opaque.wasm",
-  );
-  sh.exec(
-    "cargo build --target=wasm32-unknown-unknown --release --features p521",
-  );
-  sh.exec(
-    "wasm-bindgen --out-dir=build/wbg_p521 --target=web --omit-default-module-path target/wasm32-unknown-unknown/release/opaque.wasm",
-  );
+  algo.forEach(function (name) {
+    if (name === "ristretto") {
+      sh.exec("cargo build --target=wasm32-unknown-unknown --release");
+    } else {
+      sh.exec(
+        `cargo build --target=wasm32-unknown-unknown --release --features ${name}`,
+      );
+    }
+    sh.exec(
+      `wasm-bindgen --out-dir=build/wbg_${name} --target=web --omit-default-module-path target/wasm32-unknown-unknown/release/opaque.wasm`,
+    );
+  });
 }
 
 function rollup(name) {
@@ -112,47 +110,36 @@ function main() {
   build_wbg();
 
   // copy wrapper module templates
-  sh.cp("bin/templates/*", "build/wbg_ristretto");
-  sh.cp("bin/templates/*", "build/wbg_p256");
-  sh.cp("bin/templates/*", "build/wbg_p521");
+  algo.forEach(function (name) {
+    sh.cp("bin/templates/*", `build/wbg_${name}`);
+  });
 
   // run tsc on our entry module wrapper
-  tsc("build/wbg_ristretto/index.ts");
-  tsc("build/wbg_p256/index.ts");
-  tsc("build/wbg_p521/index.ts");
+  algo.forEach(function (name) {
+    tsc(`build/wbg_${name}/index.ts`);
+  });
 
   // run rollup to bundle the js with wasm inlined and also bundle d.ts files
-  rollup("ristretto");
-  rollup("p256");
-  rollup("p521");
+  algo.forEach(function (name) {
+    rollup(name);
+  });
 
   // write package json
-  packageJson("opaque-wasm").to("build/ristrettopackage.json");
+  packageJson("opaque-wasm").to("build/ristretto/package.json");
   packageJson("opaque-p256-wasm").to("build/p256/package.json");
-  packageJson("opaque-p521-wasme").to("build/p521/package.json");
+  packageJson("opaque-p521-wasm").to("build/p521/package.json");
 
   // create bin folder
-  sh.mkdir(
-    "build/ristrettobin",
-    "build/p256/bin",
-    "build/opaque-wasme-p521/bin",
-  );
+  sh.mkdir("build/ristretto/bin", "build/p256/bin", "build/p521/bin");
 
-  // write bin script
-  bin.to("build/ristrettobin/index.js");
-  sh.chmod("+x", "build/ristrettobin/index.js");
-  bin.to("build/p256/bin/index.js");
-  sh.chmod("+x", "build/p256/bin/index.js");
-  bin.to("build/p521/bin/index.js");
-  sh.chmod("+x", "build/opaque-wasme-p521/bin/index.js");
-
-  // copy docs
-  sh.cp("README.md", "build/ristrettoREADME.md");
-  sh.cp("README.md", "build/p256/README.md");
-  sh.cp("README.md", "build/opaque-wasme-p521/README.md");
-  sh.cp("LICENSE", "build/ristrettoLICENSE");
-  sh.cp("LICENSE", "build/p256/LICENSE");
-  sh.cp("LICENSE", "build/p521/LICENSE");
+  algo.forEach(function (name) {
+    // write bin script
+    bin.to(`build/${name}/bin/index.js`);
+    sh.chmod("+x", `build/${name}/bin/index.js`);
+    // copy docs
+    sh.cp("README.md", `build/${name}/README.md`);
+    sh.cp("LICENSE", `build/${name}/LICENSE`);
+  });
 }
 
 main();
