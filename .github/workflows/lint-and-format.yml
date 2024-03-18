@@ -39,7 +39,8 @@ jobs:
             pnpm-store-
             pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
       - name: prettier-check
         run: pnpm prettier --check . --ignore-unknown

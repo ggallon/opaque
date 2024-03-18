@@ -40,6 +40,9 @@ jobs:
             pnpm-store-
             pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
 
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Build opaque
         run: pnpm build
 
