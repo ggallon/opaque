@@ -127,26 +127,30 @@ function main() {
   rollup("p521");
 
   // write package json
-  packageJson("opaque-wasm").to("build/ristretto/package.json");
-  packageJson("opaque-wasm-p256").to("build/p256/package.json");
-  packageJson("opaque-wasme-p521").to("build/p521/package.json");
+  packageJson("opaque-wasm").to("build/ristrettopackage.json");
+  packageJson("opaque-p256-wasm").to("build/p256/package.json");
+  packageJson("opaque-p521-wasme").to("build/p521/package.json");
 
   // create bin folder
-  sh.mkdir("build/ristretto/bin", "build/p256/bin", "build/p521/bin");
+  sh.mkdir(
+    "build/ristrettobin",
+    "build/p256/bin",
+    "build/opaque-wasme-p521/bin",
+  );
 
   // write bin script
-  bin.to("build/ristretto/bin/index.js");
-  sh.chmod("+x", "build/ristretto/bin/index.js");
+  bin.to("build/ristrettobin/index.js");
+  sh.chmod("+x", "build/ristrettobin/index.js");
   bin.to("build/p256/bin/index.js");
   sh.chmod("+x", "build/p256/bin/index.js");
   bin.to("build/p521/bin/index.js");
-  sh.chmod("+x", "build/p521/bin/index.js");
+  sh.chmod("+x", "build/opaque-wasme-p521/bin/index.js");
 
   // copy docs
-  sh.cp("README.md", "build/ristretto/README.md");
+  sh.cp("README.md", "build/ristrettoREADME.md");
   sh.cp("README.md", "build/p256/README.md");
-  sh.cp("README.md", "build/p521/README.md");
-  sh.cp("LICENSE", "build/ristretto/LICENSE");
+  sh.cp("README.md", "build/opaque-wasme-p521/README.md");
+  sh.cp("LICENSE", "build/ristrettoLICENSE");
   sh.cp("LICENSE", "build/p256/LICENSE");
   sh.cp("LICENSE", "build/p521/LICENSE");
 }
