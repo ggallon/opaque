@@ -1,6 +1,8 @@
-target/
-examples/client-simple-webpack/dist/
-examples/server-simple/data.json
+/build
+/examples/**/data.json
+/examples/**/dist
+/examples/**/.next
+/tools
+/target
+
 pnpm-lock.yaml
-build/
-.next/

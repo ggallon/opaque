@@ -42,7 +42,7 @@ jobs:
       - run: pnpm install
 
       - name: prettier-check
-        run: pnpm prettier --check .
+        run: pnpm prettier --check . --ignore-unknown
 
   typecheck:
     runs-on: ubuntu-latest
