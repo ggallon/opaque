@@ -55,7 +55,7 @@ jobs:
       - name: Install Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          targets: wasm32-unknown-unknown
+          target: wasm32-unknown-unknown
 
       - name: install wasm-bindgen-cli
         run: cargo install -f wasm-bindgen-cli
