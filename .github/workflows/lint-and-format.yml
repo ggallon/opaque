@@ -4,6 +4,7 @@ on:
   push:
     branches: [canary]
   pull_request:
+    types: [opened, synchronize]
 
 env:
   RUST_BACKTRACE: 0
@@ -58,8 +59,10 @@ jobs:
         with:
           target: wasm32-unknown-unknown
 
-      - name: install wasm-bindgen-cli
-        run: cargo install -f wasm-bindgen-cli
+      - name: Install wasm-bindgen-cli
+        uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-bindgen@0.2
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3

@@ -16,10 +16,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: install wasm-bindgen-cli
-        run: cargo install wasm-bindgen-cli
-      - name: install wasm-unknown-unknown target
-        run: rustup target add wasm32-unknown-unknown
+      - name: Install Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          target: wasm32-unknown-unknown
+
+      - name: Install wasm-bindgen-cli
+        uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-bindgen@0.2
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
