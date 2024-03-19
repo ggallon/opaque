@@ -21,15 +21,16 @@ jobs:
           version: 8
           run_install: false
 
-      - id: get-store-path
-        run: echo STORE_PATH=$(pnpm store path) >> $GITHUB_ENV
+      - name: Get pnpm store path
+        id: get-pnpm-store-path
+        run: echo "STORE_PATH=$(pnpm store path--silent)"" >> $GITHUB_OUTPUT
 
       - name: Setup pnpm cache
         uses: actions/cache@v4
         timeout-minutes: 5
         id: cache-pnpm-store
         with:
-          path: ${{ steps.get-store-path.outputs.STORE_PATH }}
+          path: ${{ steps.get-pnpm-store-path.outputs.STORE_PATH }}
           key: pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             pnpm-store-
