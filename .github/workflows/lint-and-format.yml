@@ -7,6 +7,7 @@ on:
     types: [opened, synchronize]
 
 env:
+  # disable backtrace
   RUST_BACKTRACE: 0
 
 concurrency:
@@ -27,7 +28,7 @@ jobs:
           run_install: false
 
       - id: get-store-path
-        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
 
       - name: Setup pnpm cache
         uses: actions/cache@v4

@@ -7,8 +7,12 @@ on:
     types: [opened, synchronize]
 
 env:
-  # disable backtrace for test snapshots
+  # disable backtrace
   RUST_BACKTRACE: 0
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -41,7 +45,7 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
 
       - name: Setup pnpm cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         timeout-minutes: 5
         id: cache-pnpm-store
         with:
