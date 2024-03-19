@@ -4,6 +4,11 @@ on:
   push:
     branches: [canary]
   pull_request:
+    types: [opened, synchronize]
+
+env:
+  # disable backtrace for test snapshots
+  RUST_BACKTRACE: 0
 
 jobs:
   test:
